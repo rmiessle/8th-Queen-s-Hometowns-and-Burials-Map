@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>8th Queen's</title>
+	    
+	    <link data-require="bootstrap-css" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+	    <link rel="stylesheet" type="text/css" href="css/leaflet/leaflet.css">
+	  	<link rel="stylesheet" type="text/css" href="css/leaflet/MarkerCluster.css">
+	    <link rel="stylesheet" type="text/css" href="css/leaflet/MarkerCluster.Default.css">
+	    <link rel="stylesheet" type="text/css" href="css/leaflet/leaflet-search.css">
+	    <link rel="stylesheet" type="text/css" href="css/style.css">	
+
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">			
+
+	  	<script type="text/javascript" src="js/leaflet/leaflet-src.js"></script>
+		<script type="text/javascript" src="js/leaflet/leaflet.markercluster-src.js"></script>
+		<script type="text/javascript" src="js/leaflet/leaflet.markercluster.layersupport.js"></script>
+	    <script type="text/javascript" src="js/leaflet/leaflet-search.js"></script>
+	    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	    <script data-require="bootstrap" data-semver="3.3.6" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<a href="8q-hometowns-burials.html" id="link-home"><h1>Hometowns and Places of Burial and Memorialization of the 8th Queen's</h1></a>
+		</header>
+		<div class="container-fluid">
+			<div id="map"></div>
+			<div id="sidebar">
+            <p>Over the last two years, Team Peirs member Lizzie Hobbs has been tracking the men of the 8th Queen's down, gathering data from a variety of sources. This map takes a small piece of that research, focusing on the origins of the soldiers and the places of their final rest and eternal memory. Of the 1,166 currently known members of the battalion, our project has information on the hometowns of 501 men, and the places of burial or memorialization for 650.</p>
+            <p>The code and data for this project is available on <a href="https://github.com/rmiessle/8th-Queen-s-Hometowns-and-Burials-Map">GitHub</a>. Questions and comments can be directed to <a href="mailto:jackpeirs@gettysburg.edu">jackpeirs@gettysburg.edu</a>.</p>
+    		</div>
+		</div>
+		<footer>
+			<p><strong>A project by <a href="https://jackpeirs.org">The First World War Letters of H.J.C. Peirs</a>.</strong></p>
+		</footer>
+    	<div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+      		<div class="modal-dialog">
+      			<div class="modal-content">
+          			<div class="modal-header">
+           				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           				<p class="modal-title">Hometowns and Places of Burial and Memorialization of the 8th Queen's</p>
+      				</div>
+      				<div class="modal-body">
+            			<p>Thank you for visiting our map of the known hometowns and places of burial or memorialization of the men in the 8th Battalion, The Queen’s (Royal West Surrey) Regiment. This is a work in progress.</p>
+          			</div>
+          			<div class="modal-footer">
+            			<button type="button" class="btn btn-primary" data-dismiss="modal">Explore the Map</button>
+          			</div>
+        		</div>
+      		</div>
+    	</div>
+    
+    <!--jquery to call modal-->
+    
+    <script type="text/javascript">
+      $(window).load(function(){        
+        $('#mymodal').modal('show');
+      }); 
+    </script>
+		
+    <!--leaflet-->
+
+    <script type="text/javascript">
+
+		var map = L.map('map').setView([51.509865,-0.118092],7);
+      	var mapboxTiles = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoicm1pZXNzbGUiLCJhIjoiY2luZzBrNWZqMTlvMHUzbHdxZnBhbDNxciJ9.2Rsidj0YJXsrt3K4cjra1A";
+      	var mapboxAttribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>"';
+      	var mapboxID = "rmiessle/ck5zdfj861lhh1io4svzcnrmw";
+      	var mapboxAccessToken = 'pk.eyJ1Ijoicm1pZXNzbGUiLCJhIjoiY2luZzBrNWZqMTlvMHUzbHdxZnBhbDNxciJ9.2Rsidj0YJXsrt3K4cjra1A';
+
+		L.tileLayer(mapboxTiles, {
+		    attribution: mapboxAttribution,
+		    maxZoom: 18,
+		    id: mapboxID,
+		    accessToken: mapboxAccessToken
+		}).addTo(map);
+
+     	var defaultTiles = L.tileLayer(mapboxTiles, {attribution: mapboxAttribution, id: mapboxID});
+
+      	var baseMaps = {
+        	"Default Map": defaultTiles
+      	};
+
+		/*
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoicm1pZXNzbGUiLCJhIjoiY2s1cXhkc2lyMDdjODNrbzU0dDM3aHB1dCJ9.JEkq1Wgzne61dzqYvIaIPA', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox/streets-v11',
+			accessToken: 'pk.eyJ1Ijoicm1pZXNzbGUiLCJhIjoiY2s1cXhkc2lyMDdjODNrbzU0dDM3aHB1dCJ9.JEkq1Wgzne61dzqYvIaIPAn'
+		}).addTo(map);
+		*/
+
+    	var clustersBurials = L.markerClusterGroup.layerSupport();
+    	var clustersBurialsLayer = L.layerGroup();
+
+    	var poppyIcon = L.icon({
+      		iconUrl: 'images/poppy.svg',
+      		iconSize: [25,25]
+    	});
+
+    	var burials = L.geoJson(false, {
+    		pointToLayer: function(feature,latlng) {
+        		var markerBurial = L.marker(latlng, {
+          			icon: poppyIcon
+        		});
+        		markerBurial.bindPopup('<strong>Name and Rank: </strong>'+ feature.properties.Name_Rank + '<br/>' + '<strong>Place of Burial or Memorialization: </strong>' + feature.properties.Burial_Place);
+        		return markerBurial;
+      		}
+    	}).addTo(map);
+
+    	$.getJSON("data/8q-burials.geojson",function(dataBurial) {
+      		burials.addData(dataBurial);
+    	});
+
+    	var homeIcon = L.icon({
+      		iconUrl: 'images/home.svg',
+      		iconSize: [25,25]
+   		});
+
+    	var hometowns = L.geoJson(false,{
+        	pointToLayer: function(feature, latlng) {
+          		var markerHome = L.marker(latlng, {
+            		icon: homeIcon
+          		});
+          		markerHome.bindPopup('<strong>Name and Rank: </strong>'+ feature.properties.Name_Rank + '<br/>' + '<strong>Hometown: </strong>' + feature.properties.Hometown);
+          	return markerHome;
+        	}
+      	}).addTo(map);
+
+    	$.getJSON("data/8q-hometowns.geojson",function(dataHome){
+      		hometowns.addData(dataHome);
+    	});
+
+    	var overlayMaps = {
+    		"Hometowns": hometowns,
+    		"Burials and Memorializations": burials
+    	};
+
+    	/*
+    	var hometownClusterGroup = L.markerClusterGroup.layerSupport();
+    	hometownClusterGroup.addLayer(hometowns);
+    	map.addLayer(hometownClusterGroup);
+
+    	var burialClusterGroup = L.markerClusterGroup.layerSupport();
+    	burialClusterGroup.addLayer(hometowns);
+    	map.addLayer(burialClusterGroup);
+    	*/
+
+		L.markerClusterGroup.layerSupport().addTo(map);
+		var mcg = L.markerClusterGroup.layerSupport().addTo(map);
+    	mcg.addLayer(hometowns);
+    	mcg.addLayer(burials);
+    	map.addLayer(mcg);
+    	mcg.checkIn([
+      		hometowns,
+      		burials
+    	]);
+
+    	L.control.layers(baseMaps,overlayMaps, {collapsed: false}).addTo(map);
+    	$(".leaflet-control-layers-overlays").prepend("<label>Select layers:</label>");
+
+    	map.addControl(new L.Control.Search({
+    		layer: mcg,
+    		propertyName: 'Name_Rank',
+    		collapsed: false,
+    		textErr: 'Name not found',
+    		textPlaceholder: 'Start typing for autocomplete',
+    		autoResize: true,
+    		initial: false,
+    		minLength: 3,
+    		zoom: 14
+    	}));
+    	$(".leaflet-control-search").prepend("<p class='name-search-label'>Search by first or last name:</p>");
+
+	</script>
+	</body>			
+</html>

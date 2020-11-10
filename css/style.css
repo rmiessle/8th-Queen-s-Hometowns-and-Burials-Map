@@ -1,0 +1,125 @@
+@media only screen and (max-width: 768px) {
+	div.container-fluid > div#sidebar {
+		display: none;
+	}
+	div.container-fluid > div#map {
+		width: calc(100%);
+		float:left;
+	}
+}
+
+body {
+	padding: 0;
+    margin: 0;
+}
+
+/*html, body, #map {
+	height: 100%;
+	width: 100%;
+}
+*/
+
+body > div.container-fluid {
+    position: fixed;
+    top: calc(150px);
+    bottom: calc(50px);
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+}
+
+#map {
+    height: 100%;
+    /*width: calc(100% - 300px);*/
+    width: calc(75%);
+    /*float: left;*/
+    float:right;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.25em;
+}
+
+#mymodal {
+	font-family: 'Open Sans', sans-serif;
+    font-size: 1.25em;
+}
+
+#sidebar {
+    height: 100%;
+    /*width: calc(300px);*/
+    width: calc(25%);
+    /*float: right;*/
+    float: left;
+    background: white;
+    padding:15px;
+    border-right: solid 2px black;
+    font-family: 'Open Sans', sans-serif;
+}
+
+input.search-input, .search-tooltip {
+	font-size: .75em;
+}
+
+.leaflet-control-layers-base {
+	display: none;
+}
+
+header {
+    position: fixed;
+    height: 150px;
+    margin-bottom: 1em;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: black;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+header > a {
+	color:white; text-decoration: none;
+}
+
+header:hover > a:hover {
+	color: white; text-decoration: none;
+}
+
+header > h1 {
+	margin-left:10px;
+}
+
+footer {
+    position: fixed;
+    height: 50px;
+    margin-top: 1em;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: black;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+footer > p {
+	margin-left:10px;
+	margin-top:10px;
+}
+
+p.name-search-label {
+	font-size: 1em;
+	font-weight: 800;
+	margin: 3px;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+}
+
+.leaflet-control-search .search-tooltip {
+	max-height: 300px;
+	max-width: 300px;
+}
+
+p.modal-title {
+	font-size: 1.5em;
+	font-weight: 800;
+}
